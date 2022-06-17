@@ -4,7 +4,7 @@ public class ExpressionComponent {
 
     private final StringBuilder value;
     private final int priority;
-    private final boolean isDigit;
+    private boolean isDigit;
 
     public ExpressionComponent(Double digit) {
         this.isDigit = true;
@@ -37,7 +37,8 @@ public class ExpressionComponent {
     }
 
     public void append(char symbol) {
-        value.append(String.valueOf(symbol));
+        this.isDigit = true;
+        value.append(symbol);
     }
 
     public boolean isDigit() {

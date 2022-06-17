@@ -18,11 +18,15 @@ public class Calculator {
         // d = 3 ->
         //  -> a+(b-c)*d = 5+(6-4)*3 = 11
 
-        String expression = "4*(-7)";
+//
+//        Double asd = (double) (4 * -7);
+//        System.out.println(asd);
+
+        String expression = "4*-7";
         var polishParsed = parseToReversePolishNotation(expression);
 
         for (ExpressionComponent expressionComponent : polishParsed) {
-            System.out.print(expressionComponent.value() + " ");
+            System.out.print(expressionComponent + " ");
         }
         System.out.println();
         Double res = calculate(polishParsed);
@@ -72,13 +76,20 @@ public class Calculator {
                     }
                 }
             } else if (operators.empty() || current.priority() >= operators.peek().priority() || current.value().equals("(")) {
-                operators.push(current);
+                                                            //
+                    operators.push(current);
+                                 //
             } else if (current.value().equals(")")) {
                 while (!operators.peek().value().equals("(")) {
                     expressionComponents.add(operators.pop());
                 }
                 operators.pop();
             } else if (current.priority() < operators.peek().priority()) {
+                if (current.value().equals("-") &&
+                    (expression.charAt(i - 1) == '*' || expression.charAt(i - 1) == '/')) {
+                    current.append(expression.charAt(++i));
+                    operators.push(current);       //
+                }
                 while (current.priority() < operators.peek().priority()) {
                     expressionComponents.add(operators.pop());
                 }
