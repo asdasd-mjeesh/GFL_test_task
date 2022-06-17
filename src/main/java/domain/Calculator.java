@@ -6,12 +6,6 @@ import java.util.Stack;
 
 public class Calculator {
 
-    private final String mathSigns;
-
-    public Calculator() {
-        this.mathSigns = "+-*/()";
-    }
-
     public static void main(String[] args) {
         new Calculator().run();
     }
@@ -24,8 +18,9 @@ public class Calculator {
         // d = 3 ->
         //  -> a+(b-c)*d = 5+(6-4)*3 = 11
 
-        String expression = "5+8-3";
+        String expression = "4*(-7)";
         var polishParsed = parseToReversePolishNotation(expression);
+
         for (ExpressionComponent expressionComponent : polishParsed) {
             System.out.print(expressionComponent.value() + " ");
         }
@@ -36,28 +31,26 @@ public class Calculator {
 
     public Double calculate(List<ExpressionComponent> expression) {
         Stack<ExpressionComponent> digits = new Stack<>();
-        Double result = 0.0;
 
-        for (int i = 0; i < expression.size(); i++) {
-            var current = expression.get(i);
+        for (ExpressionComponent current : expression) {
             if (current.isDigit()) {
                 digits.push(current);
             } else {
-                Double value1 = Double.parseDouble(digits.pop().value());
                 Double value2 = Double.parseDouble(digits.pop().value());
-                Double res = null;
+                Double value1 = Double.parseDouble(digits.pop().value());
+                double result = 0.0;
 
                 if (current.value().equals("+")) {
-                    res = value1 + value2;
+                    result = value1 + value2;
                 } else if (current.value().equals("-")) {
-                    res = value1 - value2;
+                    result = value1 - value2;
                 } else if (current.value().equals("*")) {
-                    res = value1 * value2;
+                    result = value1 * value2;
                 } else if (current.value().equals("/")) {
-                    res = value1 / value2;
+                    result = value1 / value2;
                 }
 
-                digits.push(new ExpressionComponent(res));
+                digits.push(new ExpressionComponent(result));
             }
         }
         return Double.parseDouble(digits.peek().value());
@@ -66,33 +59,27 @@ public class Calculator {
     public List<ExpressionComponent> parseToReversePolishNotation(String expression) {
         List<ExpressionComponent> expressionComponents = new ArrayList<>();
         Stack<ExpressionComponent> operators = new Stack<>();
-        StringBuilder result = new StringBuilder();
 
         for (int i = 0; i < expression.length(); i++) {
             ExpressionComponent current = new ExpressionComponent(expression.charAt(i));
 
             if (current.isDigit()) {
                 expressionComponents.add(current);
-//                result.append(current.value());
                 if (expression.length() > i + 1 && expression.charAt(i + 1) == '.') {
                     current.append(expression.charAt(++i));
-//                    result.append(expression.charAt(++i));
                     while (expression.length() > i + 1 && Character.isDigit(expression.charAt(i + 1))) {
-//                        result.append(expression.charAt(++i));
                         current.append(expression.charAt(++i));
                     }
                 }
-            } else if (operators.empty() || current.priority() > operators.peek().priority() || current.value().equals("(")) {
+            } else if (operators.empty() || current.priority() >= operators.peek().priority() || current.value().equals("(")) {
                 operators.push(current);
             } else if (current.value().equals(")")) {
                 while (!operators.peek().value().equals("(")) {
-//                    result.append(operators.pop().value());
                     expressionComponents.add(operators.pop());
                 }
                 operators.pop();
             } else if (current.priority() < operators.peek().priority()) {
                 while (current.priority() < operators.peek().priority()) {
-//                    result.append(operators.pop().value());
                     expressionComponents.add(operators.pop());
                 }
             }
@@ -100,12 +87,9 @@ public class Calculator {
 
         if (!operators.empty()) {
             while (!operators.empty()) {
-//                result.append(operators.pop().value());
                 expressionComponents.add(operators.pop());
             }
         }
-//        return result.toString();
-
         return expressionComponents;
     }
 }
