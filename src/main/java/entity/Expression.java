@@ -6,6 +6,8 @@ public class Expression {
     private String value;
     private Double result;
 
+    public Expression() {  }
+
     public Expression(String value, Double result) {
         this.value = value;
         this.result = result;

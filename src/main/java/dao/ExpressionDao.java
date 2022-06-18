@@ -151,7 +151,7 @@ public class ExpressionDao implements Dao<Expression, Long> {
         parameters.add(filter.limit());
         parameters.add(filter.offset());
 
-        String where = "";
+        String where;
         if (filter.aEquals() != null || filter.aLess() != null || filter.aLarge() != null) {
             where = whereSQL.stream()
                     .collect(joining(" AND ", " WHERE ", " LIMIT ? OFFSET ? "));
@@ -166,8 +166,6 @@ public class ExpressionDao implements Dao<Expression, Long> {
             for (int i = 0; i < parameters.size(); i++) {
                 statement.setObject(i + 1, parameters.get(i));
             }
-
-            System.out.println(statement);
 
             List<Expression> expressions = new ArrayList<>();
             var resultSet = statement.executeQuery();

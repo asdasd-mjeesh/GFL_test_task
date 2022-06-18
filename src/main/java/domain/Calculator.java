@@ -1,12 +1,23 @@
 package domain;
 
-import util.ValueRounder;
-
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
 public class Calculator {
+
+    private final DecimalFormat decimalFormat;
+
+    public Calculator() {
+        this.decimalFormat = new DecimalFormat("#.###");
+    }
+
+    public Double round(Double value) {
+        String roundedValue = decimalFormat.format(value);
+        roundedValue = roundedValue.replace(",", ".");
+        return Double.parseDouble(roundedValue);
+    }
 
     public Double calculate(String expression) {
         List<ExpressionComponent> polishNotation = parseToReversePolishNotation(expression);
@@ -39,7 +50,7 @@ public class Calculator {
         }
 
         Double result = Double.parseDouble(digits.peek().value());
-        return ValueRounder.round(result);
+        return round(result);
     }
 
     private List<ExpressionComponent> parseToReversePolishNotation(String expression) {

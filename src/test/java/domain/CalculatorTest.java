@@ -1,7 +1,6 @@
 package domain;
 
 import org.junit.jupiter.api.Test;
-import util.ValueRounder;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,13 +22,27 @@ class CalculatorTest {
     }
 
     @Test
+    public void simpleExpressionWithBrackets() {
+        Calculator calculator = new Calculator();
+
+        Double res = (25-16.5) + (300+200-400.2) + 2; // = 110.3
+        res = calculator.round(res);
+
+        String expression = "(25-16.5)+(300+200-400.2)+2";
+        double result = calculator.calculate(expression);
+
+        assertEquals(res, result);
+        System.out.println(result);
+    }
+
+    @Test
     public void calculateExpressionWithFloatPoints() {
         Calculator calculator = new Calculator();
 
-        Double res = 29.6+16.13*(9.5/6);
-        res = ValueRounder.round(res);
+        Double res = 29.6+16.13*(9.5/6.8); // = 52.135
+        res = calculator.round(res);
 
-        String expression = "29.6+16.13*9.5/6";
+        String expression = "29.6+16.13*(9.5/6.8)";
         double result = calculator.calculate(expression);
 
         assertEquals(res, result);
