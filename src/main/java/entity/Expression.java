@@ -8,6 +8,11 @@ public class Expression {
 
     public Expression() {  }
 
+    public Expression(Long id, String value) {
+        this.id = id;
+        this.value = value;
+    }
+
     public Expression(String value, Double result) {
         this.value = value;
         this.result = result;

@@ -44,7 +44,7 @@ class ExpressionServiceTest {
     @Test
     void findByFilter() {
         ExpressionFilter filter = new ExpressionFilter(
-                -13.37, 0.0, -20.0, 10, 0);
+                null, null, 20.0, 10, 0);
         List<ExpressionDto> expressionsByFilter = expressionService.findByFilter(filter);
         for (ExpressionDto expression : expressionsByFilter) {
             System.out.println(expression);

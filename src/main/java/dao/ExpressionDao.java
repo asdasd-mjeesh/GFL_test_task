@@ -140,19 +140,19 @@ public class ExpressionDao implements Dao<Expression, Long> {
             parameters.add(filter.aEquals());
             whereSQL.add("result = ?");
         }
-        if (filter.aLess() != null) {
-            parameters.add(filter.aLess());
-            whereSQL.add("result <= ?");
-        }
-        if (filter.aLarge() != null) {
-            parameters.add(filter.aLarge());
+        if (filter.min() != null) {
+            parameters.add(filter.min());
             whereSQL.add("result >= ?");
+        }
+        if (filter.max() != null) {
+            parameters.add(filter.max());
+            whereSQL.add("result <= ?");
         }
         parameters.add(filter.limit());
         parameters.add(filter.offset());
 
         String where;
-        if (filter.aEquals() != null || filter.aLess() != null || filter.aLarge() != null) {
+        if (filter.aEquals() != null || filter.min() != null || filter.max() != null) {
             where = whereSQL.stream()
                     .collect(joining(" AND ", " WHERE ", " LIMIT ? OFFSET ? "));
         } else {
