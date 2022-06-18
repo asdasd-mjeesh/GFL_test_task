@@ -135,8 +135,6 @@ public class ExpressionDao implements Dao<Expression, Long> {
     public List<Expression> findAllByFilter(ExpressionFilter filter) {
         List<Object> parameters = new ArrayList<>();
         List<String> whereSQL = new ArrayList<>();
-        parameters.add(filter.limit());
-        parameters.add(filter.offset());
 
         if (filter.aEquals() != null) {
             parameters.add(filter.aEquals());
@@ -150,6 +148,8 @@ public class ExpressionDao implements Dao<Expression, Long> {
             parameters.add(filter.aLarge());
             whereSQL.add("result >= ?");
         }
+        parameters.add(filter.limit());
+        parameters.add(filter.offset());
 
         String where = "";
         if (filter.aEquals() != null || filter.aLess() != null || filter.aLarge() != null) {

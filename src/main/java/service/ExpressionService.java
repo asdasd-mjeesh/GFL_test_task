@@ -1,4 +1,6 @@
-package domain;
+package service;
+
+import domain.ExpressionResolver;
 
 public class ExpressionService {
 
