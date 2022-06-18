@@ -26,6 +26,7 @@ public class ExpressionService {
     }
 
     public ExpressionDto save(String expressionString) {
+        expressionString = expressionString.replace(" ", "");
         if (expressionResolver.resolve(expressionString)) {
             Double calculationResult = calculator.calculate(expressionString);
             Expression expression = new Expression(expressionString, calculationResult);
