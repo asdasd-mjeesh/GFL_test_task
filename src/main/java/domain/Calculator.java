@@ -48,7 +48,6 @@ public class Calculator {
 
         for (int i = 0; i < expression.length(); i++) {
             ExpressionComponent current = new ExpressionComponent(expression.charAt(i));
-            Character nextChar = expression.charAt(i + 1);
 
             if (current.isDigit()) {
                 expressionComponents.add(current);
