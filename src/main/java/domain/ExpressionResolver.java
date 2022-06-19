@@ -1,15 +1,17 @@
 package domain;
 
+import util.PropertiesUtil;
+
 public class ExpressionResolver {
 
     private final String mathSigns;
 
     public ExpressionResolver() {
-        this.mathSigns = "+-*/";
+        this.mathSigns = PropertiesUtil.get("math.signs");
     }
 
     public boolean resolve(String expression) {
-        return resolveBrackets(expression) && resolveOperations(expression);
+        return resolveBrackets(expression) && resolveOperations(expression) && resolveContext(expression);
     }
 
     private boolean resolveBrackets(String expression) {
@@ -46,5 +48,9 @@ public class ExpressionResolver {
             }
         }
         return true;
+    }
+
+    private boolean resolveContext(String expression) {
+       return true;
     }
 }

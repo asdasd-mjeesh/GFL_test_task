@@ -1,5 +1,7 @@
 package domain;
 
+import util.PropertiesUtil;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +14,7 @@ public class Calculator {
 
     public Calculator() {
         this.decimalFormat = new DecimalFormat("#.###");
-        this.mathSigns = "+-/*";
+        this.mathSigns = PropertiesUtil.get("math.signs");
     }
 
     public Double round(Double value) {
