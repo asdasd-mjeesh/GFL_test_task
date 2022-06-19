@@ -8,9 +8,11 @@ import java.util.Stack;
 public class Calculator {
 
     private final DecimalFormat decimalFormat;
+    private final String mathSigns;
 
     public Calculator() {
         this.decimalFormat = new DecimalFormat("#.###");
+        this.mathSigns = "+-/*";
     }
 
     public Double round(Double value) {
@@ -57,10 +59,15 @@ public class Calculator {
         List<ExpressionComponent> expressionComponents = new ArrayList<>();
         Stack<ExpressionComponent> operators = new Stack<>();
 
-        for (int i = 0; i < expression.length(); i++) {
-            ExpressionComponent current = new ExpressionComponent(expression.charAt(i));
+        ExpressionComponent current;
 
-            if (current.isDigit()) {
+        for (int i = 0; i < expression.length(); i++) {
+            current = new ExpressionComponent(expression.charAt(i));
+
+            if (current.value().equals("(")) {
+                operators.push(current);
+            }
+            else if (current.isDigit() || i == 0) {
                 expressionComponents.add(current);
                 if (expression.length() > i + 1 && (expression.charAt(i + 1) == '.' || Character.isDigit(expression.charAt(i + 1)))) {
                     current.append(expression.charAt(++i));
@@ -68,8 +75,15 @@ public class Calculator {
                         current.append(expression.charAt(++i));
                     }
                 }
-            } else if (operators.empty() || current.priority() >= operators.peek().priority() || current.value().equals("(")) {
+            } else if (operators.empty() || current.priority() >= operators.peek().priority()) {
+                if (!mathSigns.contains(String.valueOf(expression.charAt(i - 1)))) {
                     operators.push(current);
+                } else {
+                    while (expression.length() > i + 1 && (Character.isDigit(expression.charAt(i + 1)) || expression.charAt(i + 1) == '.')) {
+                        current.append(expression.charAt(++i));
+                    }
+                    expressionComponents.add(current);
+                }
             } else if (current.value().equals(")")) {
                 while (!operators.peek().value().equals("(")) {
                     expressionComponents.add(operators.pop());
