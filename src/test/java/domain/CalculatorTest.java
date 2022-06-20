@@ -66,4 +66,16 @@ class CalculatorTest {
         assertEquals(res, result);
         System.out.println(result);
     }
+
+    @Test
+    void testMinusAfterOtherOperations() {
+        Double res = 10.0 * 2.0 - 5.0; // = 20
+        res = calculator.round(res);
+
+        String expression = "10*2-5";
+        double result = calculator.calculate(expression);
+
+        assertEquals(res, result);
+        System.out.println(result);
+    }
 }

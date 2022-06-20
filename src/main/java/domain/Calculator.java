@@ -97,8 +97,11 @@ public class Calculator {
                     current.append(expression.charAt(++i));
                     operators.push(current);
                 }
-                while (current.priority() < operators.peek().priority()) {
+                while (!operators.empty() && current.priority() < operators.peek().priority()) {
                     expressionComponents.add(operators.pop());
+                    if (operators.empty()) {
+                        operators.push(current);
+                    }
                 }
             }
         }
